@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding: 20px;
+    }
+    
+    #taskInput {
+        padding: 8px;
+        margin-right: 8px;
+    }
+    
+    button {
+        padding: 8px;
+        cursor: pointer;
+    }
+    
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    
+    li {
+        margin-bottom: 8px;
+    }
+    
+</style>
+<body>
+
+    <h2>To-Do List</h2>
+
+    <input type="text" id="taskInput" placeholder="Add a new task">
+    <button onclick="addTask()">Add</button>
+
+    <ul id="taskList"></ul>
+
+    <script src="scripts.js">
+        document.addEventListener("DOMContentLoaded", function () {
+            displayTasks();
+        });
+        
+        function addTask() {
+            var taskInput = document.getElementById("taskInput");
+            var taskList = getTasks();
+        
+            if (taskInput.value !== "") {
+                taskList.push({ text: taskInput.value });
+                saveTasks(taskList);
+                displayTasks();
+                taskInput.value = "";
+            }
+        }
+        
+        function getTasks() {
+            var storedTasks = localStorage.getItem("tasks");
+            return storedTasks ? JSON.parse(storedTasks) : [];
+        }
+        
+        function saveTasks(tasks) {
+            localStorage.setItem("tasks", JSON.stringify(tasks));
+        }
+        
+        function displayTasks() {
+            var taskList = getTasks();
+            var listContainer = document.getElementById("taskList");
+            listContainer.innerHTML = "";
+        
+            taskList.forEach(function (task) {
+                var listItem = document.createElement("li");
+                listItem.textContent = task.text;
+                listContainer.appendChild(listItem);
+            });
+        }
+        
+    </script>
+
+</body>
+</html>
