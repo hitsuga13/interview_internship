@@ -4,44 +4,59 @@ import TheWelcome from './components/TheWelcome.vue'
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
+  <div id="app">
+    <h2>To-Do List</h2>
+    <input v-model="newTask" placeholder="Add a new task" />
+    <button @click="addTask">Add</button>
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+    <ul>
+      <li v-for="(task, index) in taskList" :key="index">{{ task.text }}</li>
+    </ul>
+  </div>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
+<script>
+export default {
+  data() {
+    return {
+      newTask: "",
+      taskList: [],
+    };
+  },
+  methods: {
+    addTask() {
+      if (this.newTask.trim() !== "") {
+        this.taskList.push({ text: this.newTask });
+        this.newTask = "";
+      }
+    },
+  },
+};
+</script>
+
+<style>
+#app {
+  font-family: 'Arial', sans-serif;
+  text-align: center;
+  padding: 20px;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+input {
+  padding: 8px;
+  margin-right: 8px;
 }
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
+button {
+  padding: 8px;
+  cursor: pointer;
+}
 
-  .logo {
-    margin: 0 2rem 0 0;
-  }
+ul {
+  list-style-type: none;
+  padding: 0;
+}
 
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+li {
+  margin-bottom: 8px;
 }
 </style>
